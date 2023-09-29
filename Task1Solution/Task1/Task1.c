@@ -5,7 +5,7 @@
 int main()
 {
     double x1, x2 ,y1, y2, r1, r2;
-    printf("Input coordinate 1st circle and radius:");
+    printf("Input coordinate 1st circle  and radius:");
     scanf(" %lf, %lf, %lf", &x1, &y1, &r1);
     if (r1 <= 0)
     {
@@ -68,7 +68,10 @@ int main()
         {
             printf("Circles have one general dots and circle in circle");
         }
-        else if ((distance < r2 - r1) || (distance < r1 - r2));
+        else if ((distance < r2 - r1) || (distance < r1 - r2))
+        {
+            printf("Circle in circle");
+        }
 
     }
 }
