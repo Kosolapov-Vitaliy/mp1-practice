@@ -4,27 +4,33 @@ int main()
 {
     double h, w, d, m, m1,m2,m3,m4,m5,i;
     double k = 0;
-    printf("Input width, height, depth:");
-    scanf("%lf, %lf, %lf", &w, &h, &d);
-    if ((180 <= h <= 220) || (80 <= w <= 120) || (50 <= d <= 90))
+    do
     {
-        printf("Correct");
-    }
-    else
+        printf("Input width:");
+        scanf("%lf", &w);
+    } while ((w < 80) || (w > 120));
+    do
     {
-        printf("Incorrect");
-        return 0;
-    }
+        printf("Input height:");
+        scanf("%lf", &h);
+    } while ((h < 180) || (h > 220));
+    do
+    {
+        printf("Input depth:");
+        scanf("%lf", &d);
+    } while ((d < 50) || (d > 90));
     double pDSP = 735, pDVP = 800, pTr = 670;
-    m1 = ((h * w * 0.05)/1000000)*pDVP;
-    m2 = (((h * d * 0.15)*2) / 1000000) * pDSP;
-    m3 = (((d * w * 0.15)*2) / 1000000) * pDSP;
-    m4 = ((h * w * 0.1) / 1000000) * pTr;
+    m1 = ((h * w * 0.5)/1000000)*pDVP;
+    m2 = (((h * d * 1.5)*2) / 1000000) * pDSP;
+    m3 = (((d * w * 1.5)*2) / 1000000) * pDSP;
+    m4 = ((h * w * 1) / 1000000) * pTr;
     i = h;
     while (i >= 40)
     {
         k++;
+        i = i - (40 + 0.15);
     }
-    m5 = ((k * ((w - 0.3) * d * 0, 15)) / 1000000) * pDSP;
-    printf("m = %lf", m = m1 + m2 + m3 + m4 + m5);
+    m5 = ((k * ((w - 3) * d * 0.15)) / 1000000) * pDSP;
+    m = m1 + m2 + m3 + m4 + m5;
+    printf("m = %lf", m);
 }
