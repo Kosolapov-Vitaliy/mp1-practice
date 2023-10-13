@@ -51,4 +51,5 @@ int main()
     {
         printf("Circles have two general dots");
     }
+    return 0;
 }
