@@ -37,26 +37,25 @@ int main()
             printf("Input answer: \n ");
             scanf("%d", &answer); printf("%d \n", answer);
         } while ((answer < 1) || (answer > 1000));        
-        int i = 0, j = 1000, max=1000, bot_ans=0, kol=0;
-        char znak;
+        int min = 0, max=1000, bot_ans=0, kol=0;
+        int znak;
         do {
-            printf("%d\n", bot_ans = i + max / 2);  
+            printf("%d\n", bot_ans = min + ((max-min) / 2));  
             kol++;
             do {
-                printf("Input >, < or =: \n");
-                scanf("%s", &znak); printf("%s", znak);
-            } while ((znak != "<")&& (znak != ">") && (znak != "="));
-            if (znak == "<")
+                znak = getchar(); printf("Input >, < or =: \n");
+                znak = getchar();
+            } while ((znak != '<') && (znak != '>') && (znak != '='));
+            if (znak == '<')
             {
-                j = bot_ans;
-                max = max / 2;
+                max = bot_ans;
             }
-            else if (znak == ">")
+            else if (znak == '>')
             {
-                i = bot_ans;
-                max = max / 2;
+                min = bot_ans;
             }
-        } while (znak != "=");
-        printf("Answer = %d", bot_ans);
+        } while (znak != '=');
+        printf("Answer = %d, number of attempts == %d \n", bot_ans, kol);
+        return 0;
     }
 }
