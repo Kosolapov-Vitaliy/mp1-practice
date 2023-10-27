@@ -12,10 +12,10 @@ int main()
     } while ((mode != 1) && (mode != 0));
     if (mode == 0)
     {
+        int m_answer = 0, kol = 0, number;
         printf("You gues\n");
         srand((unsigned int)time(0));
-        int number = rand() % 1000;
-        int m_answer = 0, kol = 0;
+        number = 1+ rand() % 1000;        
         do {
             do {
                 printf("Input number: \n");
@@ -31,21 +31,19 @@ int main()
     }
     if (mode == 1)
     {
-        printf("You ask\n");
-        int answer = 0;
+        int answer, min = 0, max = 1000, bot_ans = 0, kol = 0;
+        char znak;
+        printf("You ask\n");        
         do {
             printf("Input answer: \n ");
-            scanf("%d", &answer); printf("%d \n", answer);
+            scanf("%d", &answer);
+            printf("%d \n", answer);
         } while ((answer < 1) || (answer > 1000));        
-        int min = 0, max=1000, bot_ans=0, kol=0;
-        int znak;
+        
         do {
             printf("%d\n", bot_ans = min + ((max-min) / 2));  
             kol++;
-            do {
-                znak = getchar(); printf("Input >, < or =: \n");
-                znak = getchar();
-            } while ((znak != '<') && (znak != '>') && (znak != '='));
+            scanf("%*c%c", &znak);
             if (znak == '<')
             {
                 max = bot_ans;
