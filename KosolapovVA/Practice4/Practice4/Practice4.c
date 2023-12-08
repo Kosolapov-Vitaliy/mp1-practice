@@ -7,7 +7,8 @@ double price[N] = { 99.9, 25.9, 189.9, 399.9, 199.9, 349.9, 139.9, 95.9, 119.9, 
 int barcode[N][m] = { {1,0,3,1},{2,0,4,1}, {3,0,5,1},{1,1,6,1},{4,0,7,1},{3,1,8,1},{2,1,9,1},{5,0,1,2},{6,0,2,2},{7,0,3,2} };
 int discount[N] = {10, 5, 20, 3,1,8,25,4,50,30};
 
-
+void struct_craft(int i);
+int scan_barcode();
 void check_barcode(int u_bar, int *id);
 void inf_output(int id);
 void print_receipt();
@@ -21,16 +22,9 @@ struct receipt
 }pos[N];
 int main()
 {
-    int operation=1, user_barcode, id, i=0;
+    int operation = 1, user_barcode, id, i = 0;
     double sum = 0;
-    for (; i < N; i++)
-    {
-        pos[i].name = name[i];
-        pos[i].price = price[i];
-        pos[i].count = 0;
-        pos[i].discount = discount[i];
-        pos[i].sum = 0;
-    }
+    struct_craft(i);
     print_receipt();
     do {
         switch (operation) 
@@ -38,12 +32,7 @@ int main()
         case 1:
             id = 10;
             printf("Please scan the 4 digit barcode:");
-            scanf("%d", &user_barcode);
-            while (user_barcode / 1000 > 10)
-            {
-                printf("Error, your barcode is too long, scan again:");
-                scanf("%d", &user_barcode);
-            }
+            user_barcode = scan_barcode();
             check_barcode(user_barcode, &(id));
             if (id == 10)
             {
@@ -73,12 +62,23 @@ int main()
             break;
         }
     } while (operation != 5);
-    for (i=0; i < N; i++)
+    for (; i < N; i++)
     {
         sum = sum + pos[i].sum;
     }
     printf("Sum receipt = %g", sum);
     return 0;
+}
+void struct_craft(int i)
+{
+    for (; i < N; i++)
+    {
+        pos[i].name = name[i];
+        pos[i].price = price[i];
+        pos[i].count = 0;
+        pos[i].discount = discount[i];
+        pos[i].sum = 0;
+    }
 }
 void print_receipt()
 {
@@ -118,5 +118,16 @@ void check_barcode(int u_bar, int *f_id)
 void inf_output(int id)
 {
     printf("Name:%s, price:%lf, discount:%d \n", name[id], price[id], discount[id]);
+}
+int scan_barcode()
+{
+    int u_bar;
+    scanf("%d", &u_bar);
+    while (u_bar / 1000 > 10)
+    {
+        printf("Error, your barcode is too long, scan again:");
+        scanf("%d", &u_bar);
+    }
+    return (u_bar);
 }
 
