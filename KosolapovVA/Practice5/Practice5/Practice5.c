@@ -1,101 +1,114 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
 #include <windows.h>
 #include <fileapi.h>
 #include <string.h>
+#include <time.h>
 
+#define MAX_LEN_PATH 1023
+#define G 5
+
+char* size[G] = {"Byte", "Kb", "Mb", "Gb", "Tb"};
 typedef struct
 {
     char* name;
     long size;
 } f_arr;
 
-void path_adapting(char *path);
-int count_files(char *path);
-f_arr* take_f_path(char* way, int cfp);
-void copy(f_arr* Arr, f_arr* Copy_Arr, int cfp);
-void quick_sort(long* size_arr, f_arr* Copy_Arr, int cfp);
-void bubble_sort(f_arr* Copy_Arr, int cfp);
-void insert_sort(f_arr* Copy_Arr, int cfp);
-void take_size_arr(long* size_arr, f_arr* Copy_Arr, int cfp);
-void swap_ch(char x, char y);
-void swap_l(long x, long y);
-void pr_files(f_arr* Copy_Arr, int cfp);
+void take_path(char* pt, int* f);
+void path_adapting(char* path);
+int count_files(char* path);
+f_arr* take_f_path(char* path, int cfp);
+int take_metod();
+int* take_ind_arr(int cfp);
+void bubble_sort(f_arr* Arr, int* ind, int cfp);
+void insert_sort(f_arr* Arr, int* ind, int cfp);
+void quick_sort(f_arr* Arr, int* ind, int left, int right);
+void swap(int* x, int* y);
+void pr_files(int* ind, f_arr* Copy_Arr, int cfp);
 
 int main()
 {
     system("chcp 1251");
-    f_arr *files_arr;
-    int work = 0;
-    do {
-        char path[255];
-        int cfp;
-        printf("1) Enter the path to the derrictory:\n");
-        printf("2) Enter 0 if you want to finish:  \n");
-        scanf("%s", &path);
-        if (path[0] == '0') 
+    f_arr* files_arr;
+    do
+    {
+        char path[MAX_LEN_PATH];
+        int flag = -1, count_f_p;
+        clock_t t_start, t_finish;
+        double time;
+        take_path(&path, &flag);
+        path_adapting(&path);
+        if (flag == 0)
         {
             printf("End");
             break;
         }
-        printf("%s", path);
-        path_adapting(&path);
-        cfp = count_files(&path);
-        if (cfp == -1)
+        count_f_p = count_files(&path);
+        if (count_f_p == -1)
         {
             printf("The directory does not exist. Try again\n");
             continue;
         }
-        if (cfp == 0)
+        if (count_f_p == 0)
         {
             printf("The directory is empty\n");
             continue;
         }
-        printf("%d", cfp);
-        files_arr = take_f_path(&path, cfp);
+        files_arr = take_f_path(&path, count_f_p);
+        int i = 0;
         do {
-            int metod;
-            printf("Select the sorting method: 1)bubble, 2)inserts, 3)quick\n");
-            printf("Enter 0 if you want to change the directory:  \n");
-            do {
-                scanf("%d", &metod);
-                if (metod >= 0 && metod <= 3)
-                {
-                    break;
-                }
-                printf("Error, try again");
-            } while (metod < 0 || metod >3);
+            int metod = take_metod();
             if (metod == 0)
             {
                 break;
             }
-            f_arr* copy_farr = (f_arr*)malloc(cfp * sizeof(f_arr));
-            copy(&files_arr, &copy_farr, cfp);
-            long* size_arr = (long*)malloc(cfp * sizeof(long));
-            take_size_arr(&size_arr, &copy_farr, cfp);
+            int* ind_arr;
+            ind_arr = take_ind_arr(count_f_p);
             switch (metod)
             {
             case 1:
-                bubble_sort( &copy_farr, cfp);
+                t_start = clock();
+                bubble_sort(files_arr, ind_arr, count_f_p);
+                pr_files(ind_arr, files_arr, count_f_p);
+                t_finish = clock();
+                time = (double)((t_finish - t_start)) / CLOCKS_PER_SEC;
+                printf("Sorting time: %.6g seconds\n", time);
                 break;
             case 2:
-                insert_sort(&copy_farr, cfp);
+                t_start = clock();
+                insert_sort(files_arr, ind_arr, count_f_p);
+                pr_files(ind_arr, files_arr, count_f_p);
+                t_finish = clock();
+                time = (double)((t_finish - t_start)) / CLOCKS_PER_SEC;
+                printf("Sorting time: %.6g seconds\n", time);
                 break;
             case 3:
-                quick_sort(&size_arr, &copy_farr, cfp);
+                t_start = clock();
+                quick_sort(files_arr, ind_arr, 0, count_f_p-1);
+                pr_files(ind_arr, files_arr, count_f_p);
+                t_finish = clock();
+                time = (double)((t_finish - t_start)) / CLOCKS_PER_SEC;
+                printf("Sorting time: %.6g seconds\n", time);
                 break;
             }
-            pr_files(copy_farr, cfp);
-            free(copy_farr);
-            free(size_arr);
+            free(ind_arr);
         } while (1);
         free(files_arr);
     } while (1);
-    return 0;
 }
 
-void path_adapting(char *path)
+void take_path(char* pt, int* f)
+{
+    printf("1) Enter the path to the derrictory:\n");
+    printf("2) Enter 0 if you want to finish:  \n");
+    scanf("%s", pt);
+    if (pt[0] == '0')
+    {
+        *f = 0;
+    }
+}
+void path_adapting(char* path)
 {
     int ln = strlen(path);
     if (path[ln - 1] != '*') {
@@ -105,15 +118,23 @@ void path_adapting(char *path)
     }
     printf("%s", path);
 }
-int count_files(char *path) 
+int count_files(char* path)
 {
     WIN32_FIND_DATAA fdata;
     HANDLE hFind = FindFirstFileA(path, &fdata);
     int count = -1;
     while (FindNextFileA(hFind, &fdata) != NULL)
     {
-        count++;
+        if ((strcmp(fdata.cFileName, "..") == 0))
+        {
+            count = 0;
+        }
+        if ((strcmp(fdata.cFileName, ".") != 0) && (strcmp(fdata.cFileName, "..") != 0))
+        {
+            count++;
+        }
     }
+    FindClose(hFind);
     return count;
 }
 f_arr* take_f_path(char* path, int cfp)
@@ -123,125 +144,135 @@ f_arr* take_f_path(char* path, int cfp)
     WIN32_FIND_DATAA fdata;
     HANDLE hFind = FindFirstFileA(path, &fdata);
     Arr = (f_arr*)malloc(cfp * sizeof(f_arr));
-    do {
-        char* filename = fdata.cFileName;
-        long filesize = fdata.nFileSizeLow;
-        Arr[i].name = _strdup(fdata.cFileName);
-        Arr[i].size = filesize;
-        i++;
-    } while (FindNextFileA(hFind, &fdata) != NULL);
+    while (FindNextFileA(hFind, &fdata) != NULL)
+    {
+        if ((strcmp(fdata.cFileName, ".") != 0) && (strcmp(fdata.cFileName, "..") != 0))
+        {
+            char* filename = fdata.cFileName;
+            long filesize = fdata.nFileSizeLow;
+            Arr[i].name = _strdup(fdata.cFileName);
+            Arr[i].size = filesize;
+            i++;
+        }
+    }
     FindClose(hFind);
     return Arr;
 }
-void take_size_arr(long* size_arr, f_arr* Copy_Arr, int cfp)
+int take_metod()
+{
+    int m;
+    printf("Select the sorting method: 1)bubble, 2)inserts, 3)quick\n");
+    printf("Enter 0 if you want to change the directory:  \n");
+    scanf("%d", &m);
+    while (m < 0 || m >3)
+    {
+        printf("Error, try again");
+        scanf("%d", &m);
+    }
+    return m;
+}
+int* take_ind_arr(int cfp)
 {
     int i = 0;
-    for (i; i < cfp; i++)
+    int* a;
+    a = (int*)malloc(cfp * sizeof(int));
+    for (; i < cfp; i++)
     {
-        size_arr[i] = Copy_Arr[i].size;
+        a[i] = i;
     }
+    return a;
 }
-void copy(f_arr* Arr, f_arr* Copy_Arr, int cfp)
+void bubble_sort(f_arr* Arr, int* ind, int cfp)
 {
-    int i = 0;
-    for (i; i < cfp; i++)
-    {
-        Copy_Arr[i].name = Arr[i].name;
-        Copy_Arr[i].size = Arr[i].size;
-    }
-}
-void quick_sort(long* size_arr, f_arr* Copy_Arr,int cfp)
-{
-    int i = 0, j = cfp - 1;
-    long pivot;
-    pivot = size_arr[(cfp-1)/2];
-    while (i < j)
-    {
-        while (Copy_Arr[i].size < pivot)
-        {
-            i++;
-        }
-        while (Copy_Arr[j].size > pivot)
-        {
-            j--;
-        }
-        if (i < j)
-        {
-            swap_l(size_arr[i], size_arr[j]);
-            swap_l(Copy_Arr[i].size, Copy_Arr[j].size);
-            swap_ch(Copy_Arr[i].name, Copy_Arr[j].name);
-            i++, j--;
-        }
-    }
-    if (j > 0)
-    {
-        quick_sort(size_arr[0], Copy_Arr, j);
-    }
-    if (i < cfp - 1)
-    {
-        quick_sort(size_arr[i], Copy_Arr, cfp - i - 1);
-    }
-}
-void bubble_sort(f_arr* Copy_Arr, int cfp)
-{
-    int i, j;
-    long k;
-    char* n;
+    int i, j, k;
     for (i = 0; i < cfp; i++)
     {
-        for (j = 1; j < cfp - i; j++)
+        for (j = (cfp - 1); j > i; j--)
         {
-            if (Copy_Arr[j].size < Copy_Arr[j-1].size)
+            if (Arr[ind[j]].size < Arr[ind[j - 1]].size)
             {
-                k = Copy_Arr[j].size;
-                n = Copy_Arr[j].name;
-                Copy_Arr[j].size = Copy_Arr[j-1].size;
-                Copy_Arr[j].name = Copy_Arr[j-1].name;
-                Copy_Arr[j - 1].size = k;
-                Copy_Arr[j - 1].name = n;
+                k = ind[j];
+                ind[j] = ind[j - 1];
+                ind[j - 1] = k;
             }
         }
     }
 }
-void insert_sort(f_arr* Copy_Arr, int cfp)
+void insert_sort(f_arr* Arr, int* ind, int cfp)
 {
-    int  i, j;
-    long k;
-    char n;
+    int i, j, k;
     for (i = 1; i < cfp; i++)
     {
-        n = Copy_Arr[i].name;
-        k = Copy_Arr[i].size;
-        j = i - 1;
-        while ((j >= 0) && (Copy_Arr[j].size > k))
+        k = ind[i];
+        j = i;
+        while ((j > 0) && (Arr[k].size < Arr[ind[j-1]].size))
         {
-            Copy_Arr[j + 1].size = Copy_Arr[j].size;
-            Copy_Arr[j + 1].name = Copy_Arr[j].name;
-            Copy_Arr[j].size = k;
-            Copy_Arr[j].name = n;
+            ind[j] = ind[j-1];
             j--;
         }
+        ind[j] = k;
     }
 }
-void pr_files(f_arr* Copy_Arr, int cfp)
+void quick_sort(f_arr* Arr, int* ind, int left, int right)
 {
-    int i = 0;
-    for (i; i < cfp+2; i++) 
+    int pivot, left_h = left, right_h = right;
+    pivot =ind[left];
+    while (left < right)
     {
-        printf("%s %d\n", Copy_Arr[i].name, Copy_Arr[i].size);
+        while ((Arr[ind[right]].size >= Arr[pivot].size) && (left < right))
+        {
+            right--;
+        }
+        if (left != right)
+        {
+            ind[left] = ind[right];
+            left++;
+        }
+        while ((Arr[ind[left]].size <= Arr[pivot].size) && (left < right))
+        {
+            left++;
+        }
+        if (left != right)
+        {
+            ind[right] = ind[left];
+            right--;
+        }
+    }
+    ind[left] = pivot;
+    pivot = left;
+    left = left_h;
+    right = right_h;
+    if (left < pivot)
+    {
+        quick_sort(Arr, ind, left, pivot - 1);
+    }
+    if (right > pivot)
+    {
+        quick_sort(Arr, ind, pivot+1, right);
     }
 }
-void swap_l(long x, long y)
+void swap(int* x, int* y)
 {
-    long temp;
-    temp = y;
-    y = x;
-    x = temp;
+    int tmp = 0;
+    tmp = *x;
+    *x = *y;
+    *y = tmp;
 }
-void swap_ch(char x, char y)
+void pr_files(int* ind, f_arr* Copy_Arr, int cfp)
 {
-    char temp;
-    temp = y;
-    y = x;
-    x = temp;
+    int i = 0,s, temp;
+    double tmp;
+    for (; i < cfp; i++)
+    {
+        s = 0;
+        temp = Copy_Arr[ind[i]].size;
+        tmp = (double)temp;
+        printf("|%s       |", Copy_Arr[ind[i]].name);
+        while (tmp/1024>=1)
+        {
+            tmp = tmp / 1024;
+            s++;
+        }
+        printf("%.3f %s \n", tmp, size[s]);
+    }
 }
