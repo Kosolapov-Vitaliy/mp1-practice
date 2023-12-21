@@ -15,8 +15,8 @@ double discount[N] = {10.0, 5.0, 20.0, 3.0, 1.0, 8.0, 25.0, 4.0, 50.0, 30.0};
 char* Const_E1 = "Enter 1 if you want to scan the next item.\n";
 char* Const_E2 = "Enter 2 if you want to see the product description.\n";
 char* Const_E3 = "Enter 3 if you want to add product details to the receipt.\n";
-char* Const_E4 = "Enter 4 if you want to withdraw the receipt\n";
-char* Const_E5 = "Enter 5 if you want to withdraw the receipt\n";
+char* Const_E4 = "Enter 4 if you want to withdraw the receipt.\n";
+char* Const_E5 = "Enter 5 if you want to withdraw the receipt.\n";
 int operation = 1;
 
 void struct_craft(int i);
@@ -26,6 +26,7 @@ void inf_output(int id);
 void sum_counting(int id);
 void print_receipt();
 double sum_receipt(int i);
+void choice_operation(int* oper);
 
 struct receipt
 {
@@ -54,7 +55,7 @@ int main()
             else
             {
                 printf("%s%s%s%s%s", Const_E1, Const_E2, Const_E3, Const_E4, Const_E5);
-                scanf("%d", &operation);
+                choice_operation(&operation);
             }
             break;
         case 2:
@@ -118,14 +119,17 @@ void inf_output(int id)
 {
     printf("Name:%s, price:%g, discount:%g \n", name[id], price[id], discount[id]);
     printf("%s%s%s%s", Const_E1, Const_E3, Const_E4, Const_E5);
-    scanf("%d", &operation);
+    choice_operation(&operation);
 }
 void sum_counting(int id)
 {
-    pos[id].count++;
+    int count_t=0;
+    printf("How many pieces do you want to add to the receipt?\n");
+    scanf("%d", &(count_t));
+    pos[id].count=count_t+ pos[id].count;
     pos[id].sum = (pos[id].price - (pos[id].price * pos[id].discount / 100.0)) * pos[id].count;
     printf("%s%s%s", Const_E1, Const_E4, Const_E5);
-    scanf("%d", &operation);
+    choice_operation(&operation);
 }
 void print_receipt()
 {
@@ -139,7 +143,7 @@ void print_receipt()
         }
     }
     printf("%s%s", Const_E1, Const_E5);
-    scanf("%d", &operation);
+    choice_operation(&operation);
 }
 double sum_receipt(int i)
 {
@@ -149,4 +153,22 @@ double sum_receipt(int i)
         sum = (sum + pos[i].sum);
     }
     return sum;
+}
+void choice_operation(int *oper)
+{
+    int flag = -1;
+    do
+    {
+        int temp;
+        scanf("%d", &temp);
+        if ((temp >= 0) && (temp <= 5))
+        {
+            flag = 0;
+            *oper = temp;
+        }
+        else
+        {
+            printf("Incorrect operation, please enter again.\n");
+        }
+    } while (flag == -1);
 }
