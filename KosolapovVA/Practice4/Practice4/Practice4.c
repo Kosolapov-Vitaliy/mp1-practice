@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#define MAX_LEN 255
 #define m 4
 #define N 10
 
@@ -7,9 +9,9 @@ char* name[N] = { "Milk","Bread","Sausage","Cheese",
 "Flakes", "Fish fillet", "Pasta", "Sugar", "Juice", "Chocolate" };
 double price[N] = { 99.9, 25.9, 189.9, 399.9, 199.9, 
 349.9, 139.9, 95.9, 119.9, 99.9 };
-int barcode[N][m] = { {1,0,3,1},{2,0,4,1}, {3,0,5,1},{1,1,6,1},{4,0,7,1},
-    {3,1,8,1},{2,1,9,1},{5,0,1,2},{6,0,2,2},{7,0,3,2}};
-int discount[N] = {10, 5, 20, 3, 1, 8, 25, 4, 50, 30};
+char* barcode[N] = { "1031","2041", "3051","1161","4071",
+                     "3181","2191","5012","6022","7032"};
+double discount[N] = {10.0, 5.0, 20.0, 3.0, 1.0, 8.0, 25.0, 4.0, 50.0, 30.0};
 char* Const_E1 = "Enter 1 if you want to scan the next item.\n";
 char* Const_E2 = "Enter 2 if you want to see the product description.\n";
 char* Const_E3 = "Enter 3 if you want to add product details to the receipt.\n";
@@ -18,8 +20,8 @@ char* Const_E5 = "Enter 5 if you want to withdraw the receipt\n";
 int operation = 1;
 
 void struct_craft(int i);
-int scan_barcode();
-void check_barcode(int u_bar, int *f_id);
+char* scan_barcode();
+void check_barcode(char* u_bar, int *f_id);
 void inf_output(int id);
 void sum_counting(int id);
 void print_receipt();
@@ -30,13 +32,14 @@ struct receipt
     char* name;
     double price;
     int count;
-    int discount;
+    double discount;
     double sum;
 }pos[N];
 
 int main()
 {
-    int user_barcode, id, i = 0;
+    char* user_barcode;
+    int  id, i = 0;
     struct_craft(i);
     do {
         switch (operation) 
@@ -44,7 +47,7 @@ int main()
         case 1:
             user_barcode = scan_barcode();
             check_barcode(user_barcode, &(id));
-            if (id == 10)
+            if (id == -1)
             {
                 printf("Error, this product is not in the database,try again\n");
             }
@@ -79,47 +82,41 @@ void struct_craft(int i)
         pos[i].sum = 0;
     }
 }
-int scan_barcode()
+char* scan_barcode()
 {
-    int u_bar;
+    char u_bar[MAX_LEN];
     printf("Please scan the 4 digit barcode:");
-    scanf("%d", &u_bar);
-    while (u_bar / 1000 >= 10)
+    scanf("%s", &u_bar);
+    while ((strlen(u_bar)) != 4)
     {
-        printf("Error, your barcode is too long, scan again:");
-        scanf("%d", &u_bar);
+        if ((strlen(u_bar)) > 4)
+        {
+            printf("Error, your barcode is too long, scan again:");
+        }
+        if ((strlen(u_bar)) < 4)
+        {
+            printf("Error, your barcode is too short, scan again:");
+        }
+        scanf("%s", &u_bar);
     }
     return (u_bar);
 }
-void check_barcode(int u_bar, int *f_id)
-{
-    int u_bar_arr[m], i = m - 1, j, count, p_bar=u_bar;
-    for (; i >= 0; i--)
+void check_barcode(char* u_bar, int *f_id)
+{    
+    *f_id = -1;
+    int i = 0;
+    for (; i < N; i++)
     {
-        u_bar_arr[i] = p_bar % 10;
-        p_bar = p_bar / 10;
-    }
-    for (j = 0; j < N; j++)
-    {
-        *f_id = 10;
-        count = 0;
-        for (i = 0; i < m; i++)
+        if (strcmp(u_bar, barcode[i])==0)
         {
-            if (u_bar_arr[i] == barcode[j][i])
-            {
-                count++;
-            }
-        }
-        if (count == 4)
-        {
-            *f_id = j;
+            *f_id = i;\
             break;
         }
     }
 }
 void inf_output(int id)
 {
-    printf("Name:%s, price:%lf, discount:%d \n", name[id], price[id], discount[id]);
+    printf("Name:%s, price:%g, discount:%g \n", name[id], price[id], discount[id]);
     printf("%s%s%s%s", Const_E1, Const_E3, Const_E4, Const_E5);
     scanf("%d", &operation);
 }
@@ -138,7 +135,7 @@ void print_receipt()
         if (pos[i].count != 0)
         {
             printf("Name:%s,Price=%g,", pos[i].name, pos[i].price);
-            printf("Count:%d, Discount=%d, Sum=%g\n", pos[i].count, pos[i].discount, pos[i].sum);
+            printf("Count:%d, Discount=%g, Sum=%g\n", pos[i].count, pos[i].discount, pos[i].sum);
         }
     }
     printf("%s%s", Const_E1, Const_E5);
@@ -151,4 +148,5 @@ double sum_receipt(int i)
     {        
         sum = (sum + pos[i].sum);
     }
+    return sum;
 }
