@@ -16,7 +16,7 @@ char* Const_E1 = "Enter 1 if you want to scan the next item.\n";
 char* Const_E2 = "Enter 2 if you want to see the product description.\n";
 char* Const_E3 = "Enter 3 if you want to add product details to the receipt.\n";
 char* Const_E4 = "Enter 4 if you want to withdraw the receipt.\n";
-char* Const_E5 = "Enter 5 if you want to withdraw the receipt.\n";
+char* Const_E5 = "Enter 5 if you want to withdraw the sum.\n";
 int operation = 1;
 
 void struct_craft(int i);
