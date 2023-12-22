@@ -30,11 +30,12 @@ void pr_files(int* ind, f_arr* Copy_Arr, int cfp);
 int main()
 {
     system("chcp 1251");
-    f_arr* files_arr;
+    
     do
     {
+        f_arr* files_arr;
         char path[MAX_LEN_PATH];
-        int flag = -1, count_f_p;
+        int flag = -1, count_f_p, i = 0;
         clock_t t_start, t_finish;
         double time;
         take_path(&path, &flag);
@@ -56,7 +57,6 @@ int main()
             continue;
         }
         files_arr = take_f_path(&path, count_f_p);
-        int i = 0;
         do {
             int metod = take_metod();
             if (metod == 0)
@@ -70,37 +70,42 @@ int main()
             case 1:
                 t_start = clock();
                 bubble_sort(files_arr, ind_arr, count_f_p);
-                pr_files(ind_arr, files_arr, count_f_p);
                 t_finish = clock();
                 time = (double)((t_finish - t_start)) / CLOCKS_PER_SEC;
+                pr_files(ind_arr, files_arr, count_f_p);
                 printf("Sorting time: %.6g seconds\n", time);
                 break;
             case 2:
                 t_start = clock();
                 insert_sort(files_arr, ind_arr, count_f_p);
-                pr_files(ind_arr, files_arr, count_f_p);
                 t_finish = clock();
                 time = (double)((t_finish - t_start)) / CLOCKS_PER_SEC;
+                pr_files(ind_arr, files_arr, count_f_p);
                 printf("Sorting time: %.6g seconds\n", time);
                 break;
             case 3:
                 t_start = clock();
                 quick_sort(files_arr, ind_arr, 0, count_f_p-1);
-                pr_files(ind_arr, files_arr, count_f_p);
                 t_finish = clock();
                 time = (double)((t_finish - t_start)) / CLOCKS_PER_SEC;
+                pr_files(ind_arr, files_arr, count_f_p);
                 printf("Sorting time: %.6g seconds\n", time);
                 break;
             }
             free(ind_arr);
         } while (1);
+        for (i = 0; i < count_f_p; i++)
+        {
+            free(files_arr[i].name);
+        }
         free(files_arr);
     } while (1);
+    return 0;
 }
 
 void take_path(char* pt, int* f)
 {
-    printf("1) Enter the path to the derrictory:\n");
+    printf("1) Enter the path to the directory:\n");
     printf("2) Enter 0 if you want to finish:  \n");
     scanf("%s", pt);
     if (pt[0] == '0')
@@ -116,7 +121,6 @@ void path_adapting(char* path)
         path[ln + 1] = '*';
         path[ln + 2] = '\0';
     }
-    printf("%s", path);
 }
 int count_files(char* path)
 {
