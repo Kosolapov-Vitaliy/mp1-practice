@@ -1,30 +1,36 @@
 #include <stdio.h>
 #include "vec.h"
 
-int main()
+int main(int argc, char** argv)
 {
 	int n;
 	TVector v1, v2, s, d;
 	double mp;
-	printf("Lenght of v1 = ");
-	scanf("%d", &n);
-	allocate(&v1, n);
-	printf("Lenght of v2 = ");
-	scanf("%d", &n);
-	allocate(&v2, n);
-	fill(&v1);
-	fill(&v2);
+	char* infilename, * outfilename;
+	if (argc < 4)
+	{
+		printf("Incorrect arguments\n");
+		return 1;
+	}
+	n = atoi(argv[1]); // atof
+	printf("n = %d\n", n);
+	infilename = argv[2];
+	printf("in file name: %s\n", infilename);
+	outfilename = argv[3];
+	printf("out file name: %s\n", outfilename);
+	read(infilename, &v1, &v2);
 	s = sum(&v1, &v2);
-	print_sum(&s);
 	d = dif(&v1, &v2);
-	print_dif(&d);
 	mp = mplic(&v1, &v2);
-	printf("mplic= %lf", mp);
+	write(outfilename, &s, &d, mp);
 	free(v1.x);
 	free(v2.x);
 	if (s.x != NULL)
 	{
 		free(s.x);
+	}
+	if (d.x != NULL)
+	{
 		free(d.x);
 	}
 	return 0;

@@ -81,7 +81,54 @@ double mplic(TVector* v1, TVector* v2)
 	}
 	for (; i < v1->n; i++)
 	{
-		res = res + (v1->x[i] * v2->x[i]);
+		res = res + ((v1->x[i]) * (v2->x[i]));
 	}
 	return res;
+}
+
+void read(const char* filename, TVector* v1, TVector* v2)
+{
+	int i = 0;
+	FILE* f = fopen(filename, "r");
+	if (f == NULL)
+	{
+		printf("File not found");
+		abort();
+	}
+	fscanf(f ," %d ", &(v1->n));
+	v1->x = (double*)malloc(v1->n * sizeof(double));
+	for (; i < (v1->n); i++)
+	{
+		fscanf(f ," %lf ", &(v1->x[i]));
+	}
+	fscanf(f ,"%d ", &(v2->n));
+	v2->x = (double*)malloc(v2->n * sizeof(double));
+	for (i=0; i < (v2->n); i++)
+	{
+		fscanf(f ,"%lf ", &(v2->x[i]));
+	}
+	fclose(f);
+}
+
+void write(const char* filename, TVector* s, TVector* d, double mp)
+{
+	int i = 0;
+	FILE* f = fopen(filename, "w+");
+	if (f == NULL)
+	{
+		printf("File not found");
+		abort();
+	}
+	fprintf(f, "Sum =");
+	for (; i < s->n; i++)
+	{
+		fprintf(f, "%.2lf  ", (s->x[i]));
+	}
+	fprintf(f, "\nDif =");
+	for (i=0; i < d->n; i++)
+	{
+		fprintf(f, "%.2lf  ", (d->x[i]));
+	}
+	fprintf(f, "\nScalar production = %.3lf", mp);
+	fclose(f);
 }
