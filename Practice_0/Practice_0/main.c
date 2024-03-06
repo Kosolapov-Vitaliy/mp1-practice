@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "vec.h"
 
 int main(int argc, char** argv)
@@ -15,9 +14,9 @@ int main(int argc, char** argv)
 	n = atoi(argv[1]); // atof
 	printf("n = %d\n", n);
 	infilename = argv[2];
-	printf("in file name: %s\n", infilename);
+	printf("Input file name: %s\n", infilename);
 	outfilename = argv[3];
-	printf("out file name: %s\n", outfilename);
+	printf("Output file name: %s\n", outfilename);
 	read(infilename, &v1, &v2);
 	s = sum(&v1, &v2);
 	d = dif(&v1, &v2);
