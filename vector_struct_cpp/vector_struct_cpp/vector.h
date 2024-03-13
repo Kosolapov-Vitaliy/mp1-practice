@@ -13,6 +13,9 @@ struct TVector
     ~TVector();
 
     TVector operator+(const TVector&);
+    TVector operator-(const TVector&);
+    double operator*(const TVector&);
+    TVector& operator=(TVector&);
 };
 
 std::istream& operator>>(std::istream& in, TVector& v);
