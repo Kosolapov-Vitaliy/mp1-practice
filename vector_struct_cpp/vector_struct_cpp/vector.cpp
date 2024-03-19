@@ -95,9 +95,9 @@ TVector& TVector::operator=(TVector& v)
 std::istream& operator>>(std::istream& in, TVector& v)
 {
     //std::cout << "std::istream& operator>>(std::istream& in, TVector& v)" << std::endl;
-    std::cout << "Input n: ";
+    //std::cout << "Input n: ";
     in >> v.n;
-    std::cout << "Input x: ";
+    //std::cout << "Input x: ";
     if (v.x != nullptr)
     {
         delete [] v.x;
