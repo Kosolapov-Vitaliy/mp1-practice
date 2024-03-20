@@ -6,6 +6,11 @@ int main(int argc, char** argv)
 {
     TVector v1, v2;
     char* infilename, * outfilename;
+    if (argc < 3)
+    {
+        std::cout << "Incorrect arduments";
+        return 1;
+    }
     infilename = argv[1];
     outfilename = argv[2];
     std::ifstream in;
@@ -25,7 +30,7 @@ int main(int argc, char** argv)
     out.open(outfilename);
     if (out.is_open())
     {
-        out << "\n" << sum << "\n"
+        out << sum << "\n"
             << dif << "\nMplic = " << mplic;
     }
     out.close();

@@ -78,7 +78,7 @@ double  TVector :: operator*(const TVector& v)
     return res;
 }
 
-TVector& TVector::operator=(TVector& v)
+const TVector& TVector::operator=(const TVector& v)
 {
     //std::cout << "TVector& TVector::operator=(TVector& v)" << std::endl;
     if (this->n != v.n)
