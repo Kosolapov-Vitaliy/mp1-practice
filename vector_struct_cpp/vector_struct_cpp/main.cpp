@@ -25,13 +25,11 @@ int main(int argc, char** argv)
     out.open(outfilename);
     if (out.is_open())
     {
-        out << sum;
-        out << "\n" << dif;
-        out << "\nMplic = " << mplic;
+        out << "\n" << sum << "\n"
+            << dif << "\nMplic = " << mplic;
     }
     out.close();
-    std::cout << "\n" << sum;
-    std::cout << "\n" << dif;
-    std::cout <<"\nMplic = "<< mplic;
+    std::cout << "\n" << sum << "\n"
+              << dif <<"\nMplic = "<< mplic;
     return 0;
 }
