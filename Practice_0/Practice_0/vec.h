@@ -16,4 +16,4 @@ void print_dif(TVector* v);
 TVector sum(TVector* v1, TVector* v2);
 TVector dif(TVector* v1, TVector* v2);
 double mplic(TVector* v1, TVector* v2);
-#endif // !VEC_H
+#endif 

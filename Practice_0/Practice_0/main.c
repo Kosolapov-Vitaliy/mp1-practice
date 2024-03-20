@@ -6,16 +6,14 @@ int main(int argc, char** argv)
 	TVector v1, v2, s, d;
 	double mp;
 	char* infilename, * outfilename;
-	if (argc < 4)
+	if (argc < 3)
 	{
 		printf("Incorrect arguments\n");
 		return 1;
 	}
-	n = atoi(argv[1]); // atof
-	printf("n = %d\n", n);
-	infilename = argv[2];
+	infilename = argv[1];
 	printf("Input file name: %s\n", infilename);
-	outfilename = argv[3];
+	outfilename = argv[2];
 	printf("Output file name: %s\n", outfilename);
 	read(infilename, &v1, &v2);
 	s = sum(&v1, &v2);
