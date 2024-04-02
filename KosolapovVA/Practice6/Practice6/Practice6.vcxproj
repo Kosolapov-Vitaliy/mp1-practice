@@ -127,11 +127,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="birthdate.c" />
+    <ClCompile Include="car.c" />
     <ClCompile Include="fio.c" />
+    <ClCompile Include="general.c" />
+    <ClCompile Include="gibdd.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="person.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="birthdate.h" />
+    <ClInclude Include="car.h" />
     <ClInclude Include="fio.h" />
+    <ClInclude Include="general.h" />
+    <ClInclude Include="gibdd.h" />
+    <ClInclude Include="person.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
