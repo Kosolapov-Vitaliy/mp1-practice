@@ -28,12 +28,20 @@ void make_wr_lib(GLib* in_l, GLib* wr_l, const int num)
     {
         if (in_l->ts[i].otd == num)
         {
-            wr_l->ts = (I_gibdd*)realloc(j++, sizeof(I_gibdd));
-            
             count++;
         }
     }
     wr_l->count = count;
+    count = 0;
+    wr_l->ts = (I_gibdd*)malloc(wr_l->count * sizeof(I_gibdd));
+    for (i=0; i < in_l->count; i++)
+    {
+        if (in_l->ts[i].otd == num)
+        {
+            wr_l->ts[count] = in_l->ts[i];
+            count++
+        }
+    }
 }
 
 void write_all(char* o_f, GLib *bd)
