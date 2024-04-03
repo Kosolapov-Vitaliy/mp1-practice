@@ -4,10 +4,15 @@
 #include "general.h"
 #include "gibdd.h"
 
-void read_str_n(char* in_f, int* str_n, int* i);
-void alloc_bd(I_gibdd** arr, int str_n);
-void make_arr(I_gibdd* inf, const char* in_f, const int str_n, int* s_c);
-void write_all(char* o_f, I_gibdd* bd, int str_n);
-int check_read(const I_gibdd* inf, int str_n);
-void free_bd(I_gibdd* bd, int str_n);
+typedef struct
+{
+    I_gibdd* ts;
+    int count;
+} GLib;
+
+void make_lib(char* in_f, GLib* in_l, int* i);
+void make_wr_lib(GLib* in_l, GLib* wr_l, const int num);
+void write_all(char* o_f, GLib* bd);
+int check_read(const GLib* inf);
+void free_bd(GLib* bd);
 #endif GENERAL_H

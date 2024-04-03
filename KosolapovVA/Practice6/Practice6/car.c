@@ -7,11 +7,9 @@ void read_car(char* in_f, Car* c, int* i)
     FILE* f = fopen(in_f, "r");
     fseek(f, *i, SEEK_SET);
     fscanf(f, "%s ", buf);
-    fclose(f);
     c->car_num = _strdup(buf);
     sz = strlen(buf);
     *i = *i + sz + 1;
-    f= fopen(in_f, "r");
     fseek(f, *i, SEEK_SET);
     fscanf(f, "%s ", buf);
     fclose(f);

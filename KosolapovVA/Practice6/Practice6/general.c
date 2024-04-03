@@ -1,114 +1,94 @@
-#include "gibdd.h"
+#include "general.h"
 
-void read_str_n(char* in_f, int* str_n, int* i)
+void make_lib(char* in_f, GLib* in_l, int *i)
 {
     char buf[32];
-    int sz = 0, str;
+    int sz = 0, str, ci = 0, j;
     FILE* f = fopen(in_f, "r");
     fscanf(f, "%s", buf);
     fseek(f, *i, SEEK_SET);
     fscanf(f, "%d", &str);
     fclose(f);
     sz = strlen(buf);
-    *i = *i + sz +1;
-    *str_n = str;
-}
-void alloc_bd(I_gibdd** arr, int str_n)
-{
-    I_gibdd* tmp;
-    tmp = (I_gibdd*)malloc(str_n * sizeof(I_gibdd));
-    *arr = tmp;
-}
-
-void make_arr(I_gibdd* inf, const char* in_f, const int str_n, int* s_c)
-{
-    int i = 0, j = *s_c;
-    for (; i < str_n; i++)
+    *i = *i + sz + 1;
+    in_l->count = str;
+    in_l->ts = (I_gibdd*)malloc(in_l->count * sizeof(I_gibdd));
+    j = *i;
+    for (; ci < in_l->count; ci++)
     {
-        read_info(in_f, &inf[i], &j);
+        read_info(in_f, &in_l->ts[ci], &j);
     }
+    *i = j;
 }
 
-void write_all(char* o_f, I_gibdd* bd, int str_n)
+void make_wr_lib(GLib* in_l, GLib* wr_l, const int num)
+{
+    int count = 0, i = 0, j=0;
+    for (; i < in_l->count; i++)
+    {
+        if (in_l->ts[i].otd == num)
+        {
+            wr_l->ts = (I_gibdd*)realloc(j++, sizeof(I_gibdd));
+            
+            count++;
+        }
+    }
+    wr_l->count = count;
+}
+
+void write_all(char* o_f, GLib *bd)
 {
     FILE* F;
-    int i, j = str_n;
-    for (i = 0; i < j; i++)
+    int i;
+    for (i = 0; i < bd->count; i++)
     {
-        write_info(o_f, &bd[i]);
+        write_info(o_f, &bd->ts[i]);
         F = fopen(o_f, "a");
         fprintf(F, "\n");
         fclose(F);
     }
 }
 
-void seek_otd(char* o_f, I_gibdd* bd, int str_n )
-{
-    int count=0, num, i=0;
-    FILE* F;
-    printf("Введите номер отделения ГИБДД:\n");
-    scanf("%d", &num);
-    for (; i < str_n; i++)
-    {
-        if (bd[i].otd == num)
-        {
-            write_info(o_f, &bd[i]);
-            F = fopen(o_f, "a");
-            fprintf(F, "\n");
-            fclose(F);
-            count++;
-        }
-    }
-    if (count == 0)
-    {
-        printf("Ошибка: нет данных о данном отделе ГИБДД");
-        F = fopen(o_f, "a");
-        fprintf(F, "Данные о данном отделе ГИБДД отсутсвуют, либо введён несуществующий отдел ГИБДД\n");
-        fclose(F);
-    }
-
-}
-
-void free_bd(I_gibdd* bd, int str_n)
+void free_bd(GLib *lib)
 {
     int i = 0;
-    for (; i < str_n; i++)
+    for (; i < lib->count; i++)
     {
-        free_all(&bd[i]);
+        free_all(&lib->ts[i]);
     }
-    free(bd);
+    free(lib->ts);
 }
 
-int check_read(const I_gibdd* inf, int str_n)
+int check_read(const GLib *inf)
 {
     int i = 0, str=0, flag=0;
-    for (; i < str_n; i++)
+    for (; i < inf->count; i++)
     {
         str++;
-        flag=check_all(&inf[i]);
+        flag = check_all(&inf->ts[i]);
         if (flag != 0)
         {
             if (flag == -1)
             {
-                printf("В файле присутсвует некорректная дата");
+                printf("В файле присутсвует некорректная дата ");
             }
             else if (flag == -2)
             {
-                printf("В файле присутсвует некорректный формат даты");
+                printf("В файле присутсвует некорректный формат даты ");
             }
             else if (flag == -3)
             {
-                printf("В файле присутсвует некорректный номер телефона");
+                printf("В файле присутсвует некорректный номер телефона ");
             }
             else if (flag == -4)
             {
-                printf("В файле присутсвует некорректный номер ТС");
+                printf("В файле присутсвует некорректный номер ТС ");
             }
             else if (flag == -5)
             {
-                printf("В файле присутсвует некорректный номер Тех. паспорта");
+                printf("В файле присутсвует некорректный номер Тех. паспорта ");
             }
-            printf("В строке: %d", str);
+            printf("в строке: %d", str);
             return flag;
         }
     }

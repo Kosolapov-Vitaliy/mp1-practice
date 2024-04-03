@@ -2,8 +2,9 @@
 
 int  main(int argc, char** argv)
 {
-    int symb_c=0, flag = 0, str_n, j, i=0;    
-    I_gibdd* info;
+    int symb_c=0, flag = 0, j, i=0, num;   
+    GLib in_lib;
+    GLib right_lib;
     char *infilename, *outfilename;
     system("chcp 1251");
     setlocale(LC_ALL, "Rus");
@@ -21,18 +22,20 @@ int  main(int argc, char** argv)
     }
     fclose(F);
     outfilename = argv[2];
-    read_str_n(infilename, &str_n, &symb_c);
-    alloc_bd(&info, str_n);
-    make_arr(info, infilename, str_n, &symb_c);
-    flag = check_read(info, str_n);
+    make_lib(infilename, &in_lib, &symb_c);
+    flag = check_read(&in_lib);
     if (flag != 0)
     {
-        free_bd(info, str_n);
+        free_bd(&in_lib);
         return flag;
     }
     F = fopen(outfilename, "w");
     fclose(F);
-    seek_otd(outfilename, info, str_n);
-    free_bd(info, str_n); 
+    printf("Введите номер отделения ГИБДД:\n");
+    scanf("%d", &num);
+    make_wr_lib(&in_lib, &right_lib, num);
+    write_all(outfilename, &in_lib);
+    free_bd(&in_lib);
+    //free_bd(&right_lib);
     return 1;
 }

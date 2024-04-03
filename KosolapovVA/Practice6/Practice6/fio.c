@@ -7,18 +7,14 @@ void read_fio(fio* f, const char* inf, int* i)
     FILE* F = fopen(inf, "r");
     fseek(F, *i, SEEK_SET);
     fscanf(F, "%s", buf);
-    fclose(F);
     sz = strlen(buf);
     *i = *i + sz + 1;
     f->l_name = _strdup(buf);
-    F = fopen(inf, "r");
     fseek(F, *i, SEEK_SET);
     fscanf(F, "%s\n", buf);
-    fclose(F);
     sz = strlen(buf);
     *i = *i + sz + 1;
     f->name = _strdup(buf);
-    F = fopen(inf, "r");
     fseek(F, *i, SEEK_SET);
     fscanf(F, "%s\n", buf);
     fclose(F);
