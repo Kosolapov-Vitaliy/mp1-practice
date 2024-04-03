@@ -19,7 +19,7 @@ void print_br_d(const char* o_f, Birth_d* d)
     FILE* f = fopen(o_f, "a");
     fprintf(f, "%d", (d->day));
     if (d->month >= 10)
-        fprintf(f, "%d", (d->month));
+        fprintf(f, ".%d", (d->month));
     else fprintf(f, ".0%d", (d->month));
     fprintf(f, ".%d ", (d->year));
     fclose(f);

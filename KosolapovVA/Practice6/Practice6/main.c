@@ -4,7 +4,7 @@ int  main(int argc, char** argv)
 {
     int symb_c=0, flag=0, str_n, j, i=0;    
     I_gibdd* info;
-    char* infilename, * outfilename;
+    char *infilename, *outfilename;
     system("chcp 1251");
     setlocale(LC_ALL, "Rus");
     if (argc < 3)
@@ -19,51 +19,48 @@ int  main(int argc, char** argv)
         printf("Файл пуст.");
         return 2;
     }
+    fclose(F);
     outfilename = argv[2];
     read_str_n(infilename, &str_n, &symb_c);
-    info = (I_gibdd*)malloc(str_n * sizeof(I_gibdd));
-    for (; i < str_n; i++)
-    {
-        j = symb_c;
-        read_info(infilename, &info[i], &j);
-        symb_c = j;
-    }
+    alloc_bd(&info, str_n);
+    make_arr(info, infilename, str_n, &symb_c);
     if (flag != 0)
     {
         if (flag == -1)
         {
-            printf("Некорректная дата");
+            printf("В файле присутсвует некорректная дата");
             free_bd(&info, str_n);
             return 1;
         }
         else if (flag == -2)
         {
-            printf("Некорректный формат даты");
+            printf("В файле присутсвует некорректный формат даты");
             free_bd(&info, str_n);
             return 1;
         }
         else if (flag == -3)
         {
-            printf("Некорректный номер телефона");
+            printf("В файле присутсвует некорректный номер телефона");
             free_bd(&info, str_n);
             return 1;
         }
         else if (flag == -4)
         {
-            printf("Некорректный номер ТС");
+            printf("В файле присутсвует некорректный номер ТС");
             free_bd(&info, str_n); 
             return 1;
         }
         else if (flag == -5)
         {
-            printf("Некорректный номер Тех. паспорта");
+            printf("В файле присутсвует некорректный номер Тех. паспорта");
             free_bd(&info, str_n); 
             return 1;
         }
     }
     F = fopen(outfilename, "w");
     fclose(F);
-    write_all(outfilename, &info, str_n);
-    free_bd(&info, str_n); 
+    seek_otd(outfilename, info, str_n);
+    //write_all(outfilename, info, str_n);
+    free_bd(info, str_n); 
     return 1;
 }
