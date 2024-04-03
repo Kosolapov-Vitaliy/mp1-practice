@@ -39,7 +39,7 @@ int check_car(const Car* c)
     if (flag != 0)
         return flag;
     sz = strlen(c->passport);
-    if (sz == 8)
+    if (sz == 10)
         flag = flag;
     else
         flag = -5;

@@ -27,38 +27,43 @@ void print_br_d(const char* o_f, Birth_d* d)
 
 int check_date(const Birth_d* d)
 {
+    int flag = 0;
     if ((d->day < 0) || (d->month < 0) || (d->year < 0))
-        return -2;
+        flag = -2;
     else if (d->day == 0 || d->month == 0 || d->year == 0)
-        return -1;
+    {
+        flag = -1;
+    }
     else if (d->year > 2024)
     {
-        return -1;
+        flag = -1;
     }
     else if ((d->month > 12))
     {
-        return -1;
+        flag = -1;
     }
-    else if (d->day <= 31)
+    if (d->day <= 31)
     {
         switch (d->month)
         {
         case 2:
-            if (d->day <= 28) return 0;
+            if (d->day <= 28) flag = 0;
             else if (((d->year) % 4 == 0 & (d->year) % 100 != 0) || (d->year) % 400 == 0)
             {
-                if (d->day <= 29) return 0;
+                if (d->day <= 29) flag = 0;
             }
         case 4:
-            if (d->day <= 30) return 0;
+            if (d->day <= 30) flag = 0;
         case 6:
-            if (d->day <= 30) return 0;
+            if (d->day <= 30) flag = 0;
         case 9:
-            if (d->day <= 30) return 0;
+            if (d->day <= 30) flag = 0;
         case 11:
-            if (d->day <= 30) return 0;
+            if (d->day <= 30) flag = 0;
             break;
         }
     }
-    else return -1;
+    else 
+        flag = -1;
+    return flag;
 }

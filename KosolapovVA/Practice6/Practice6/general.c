@@ -78,3 +78,39 @@ void free_bd(I_gibdd* bd, int str_n)
     }
     free(bd);
 }
+
+int check_read(const I_gibdd* inf, int str_n)
+{
+    int i = 0, str=0, flag=0;
+    for (; i < str_n; i++)
+    {
+        str++;
+        flag=check_all(&inf[i]);
+        if (flag != 0)
+        {
+            if (flag == -1)
+            {
+                printf("В файле присутсвует некорректная дата");
+            }
+            else if (flag == -2)
+            {
+                printf("В файле присутсвует некорректный формат даты");
+            }
+            else if (flag == -3)
+            {
+                printf("В файле присутсвует некорректный номер телефона");
+            }
+            else if (flag == -4)
+            {
+                printf("В файле присутсвует некорректный номер ТС");
+            }
+            else if (flag == -5)
+            {
+                printf("В файле присутсвует некорректный номер Тех. паспорта");
+            }
+            printf("В строке: %d", str);
+            return flag;
+        }
+    }
+    return flag;
+}
