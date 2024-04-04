@@ -34,7 +34,7 @@ int  main(int argc, char** argv)
     printf("Введите номер отделения ГИБДД:\n");
     scanf("%d", &num);
     make_wr_lib(&in_lib, &right_lib, num);
-    write_all(outfilename, &in_lib);
+    write_all(outfilename, &right_lib);
     free_bd(&in_lib);
     free_bd(&right_lib);
     return 1;

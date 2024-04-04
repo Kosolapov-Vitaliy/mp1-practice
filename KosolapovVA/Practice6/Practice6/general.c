@@ -38,8 +38,17 @@ void make_wr_lib(GLib* in_l, GLib* wr_l, const int num)
     {
         if (in_l->ts[i].otd == num)
         {
-            wr_l->ts[count] = in_l->ts[i];
-            count++
+            wr_l->ts[count].pers.FIO.l_name = _strdup(in_l->ts[i].pers.FIO.l_name);
+            wr_l->ts[count].pers.FIO.name = _strdup(in_l->ts[i].pers.FIO.name);
+            wr_l->ts[count].pers.FIO.m_name = _strdup(in_l->ts[i].pers.FIO.m_name);
+            wr_l->ts[count].pers.birth.day = in_l->ts[i].pers.birth.day;
+            wr_l->ts[count].pers.birth.month = in_l->ts[i].pers.birth.month;
+            wr_l->ts[count].pers.birth.year = in_l->ts[i].pers.birth.year;
+            wr_l->ts[count].pers.phone_num = _strdup(in_l->ts[i].pers.phone_num);
+            wr_l->ts[count].TS.car_num = _strdup(in_l->ts[i].TS.car_num);
+            wr_l->ts[count].TS.passport = _strdup(in_l->ts[i].TS.passport);
+            wr_l->ts[count].otd = in_l->ts[i].otd;
+            count++;
         }
     }
 }
