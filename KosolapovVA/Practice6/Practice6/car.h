@@ -13,7 +13,6 @@ typedef struct
     char* passport;
 }Car;
 
-void read_car(char* in_f, Car* c, int* i);
 void write_car(char* in_f, Car* c);
 int check_car(const Car* c);
 void free_car(Car* c);

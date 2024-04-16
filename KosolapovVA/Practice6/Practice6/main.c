@@ -22,8 +22,8 @@ int  main(int argc, char** argv)
     }
     fclose(F);
     outfilename = argv[2];
-    make_lib(infilename, &in_lib, &symb_c);
-    flag = check_read(&in_lib);
+    flag = check_read(&in_lib); 
+    make_libb(infilename, &in_lib);
     if (flag != 0)
     {
         free_bd(&in_lib);

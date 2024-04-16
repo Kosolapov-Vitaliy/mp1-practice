@@ -1,25 +1,23 @@
 #include "general.h"
 
-void make_lib(char* in_f, GLib* in_l, int *i)
+void make_libb(char* in_f, GLib* in_l)
 {
-    char buf[32];
+    char buf[32], temp[2048], ** arr;
     int sz = 0, str, ci = 0, j;
     FILE* f = fopen(in_f, "r");
-    fscanf(f, "%s", buf);
-    fseek(f, *i, SEEK_SET);
-    fscanf(f, "%d", &str);
-    fclose(f);
-    sz = strlen(buf);
-    *i = *i + sz + 1;
+    fgets(buf, 32, f);
+    str = atoi(buf);
     in_l->count = str;
     in_l->ts = (I_gibdd*)malloc(in_l->count * sizeof(I_gibdd));
-    j = *i;
     for (; ci < in_l->count; ci++)
     {
-        read_info(in_f, &in_l->ts[ci], &j);
+        fgets(temp, 2048, f);
+        rread_info(temp, &in_l->ts[ci]);
+        memset(temp, '\0', 240);
     }
-    *i = j;
+    fclose(f);
 }
+
 
 void make_wr_lib(GLib* in_l, GLib* wr_l, const int num)
 {

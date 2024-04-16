@@ -1,18 +1,38 @@
 #include "birthdate.h"
 
-void read_br_d(char* in_f, Birth_d* d, int* i)
+
+void rread_br_d(char* str, Birth_d* d)
 {
-    char buf[248];
-    int sz = 0;
-    FILE* f = fopen(in_f, "r");
-    fseek(f, *i, SEEK_SET);
-    fscanf(f, "%s", buf);
-    fseek(f, *i, SEEK_SET);
-    fscanf(f, "%d.%d.%d ", &(d->day), &(d->month), &(d->year));
-    fclose(f);
-    sz = strlen(buf);
-    *i = *i + sz + 1;
+    int sz, i=0, j;
+    char buf[20];
+    sz = strlen(str);
+    j = 0;
+    memset(buf, '\0', 20);
+    do {
+        buf[j] = str[i];
+        i++; j++;
+    } while (str[i]!='.');
+    d->day = atoi(buf);
+    memset(buf, '\0', 20);
+    j = 0;
+    while (str[i] == '.')
+        i++;
+    do {
+        buf[j] = str[i];
+        i++; j++;
+    } while (str[i] != '.');
+    d->month = atoi(buf);
+    memset(buf, '\0', 20);
+    j = 0;
+    while (str[i] == '.')
+        i++;
+    do {
+        buf[j] = str[i];
+        i++; j++;
+    } while (i!=sz);
+    d->year = atoi(buf);
 }
+
 
 void print_br_d(const char* o_f, Birth_d* d)
 {

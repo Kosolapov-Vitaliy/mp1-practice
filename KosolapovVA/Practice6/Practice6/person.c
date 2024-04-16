@@ -1,20 +1,5 @@
 #include "person.h"
 
-void read_person(char* in_f, Person* p, int* i)
-{
-    char buf[248];
-    int  sz = 0, j=*i;
-    read_fio( &(p->FIO), in_f, &j);
-    read_br_d(in_f, &(p->birth), &j);
-    FILE* f = fopen(in_f, "r");
-    *i = j;
-    fseek(f, *i, SEEK_SET);
-    fscanf(f, "%s", &buf);
-    fclose(f);
-    sz = strlen(buf);
-    *i = *i + sz + 1;
-    p->phone_num = _strdup(buf);
-}
 
 void write_person(const char* o_f, Person* p)
 {

@@ -12,7 +12,7 @@ typedef struct
     int otd;
 }I_gibdd;
 
-void read_info(char* in_f, I_gibdd* inf, int* i);
+void rread_info(char* str_g, I_gibdd* inf);
 void write_info(char* o_f, I_gibdd* inf);
 void free_all(I_gibdd* ig);
 int check_all(const I_gibdd* inf);

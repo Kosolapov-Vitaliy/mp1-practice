@@ -1,22 +1,5 @@
 #include "car.h"
 
-void read_car(char* in_f, Car* c, int* i)
-{
-    char buf[248];
-    int  sz;
-    FILE* f = fopen(in_f, "r");
-    fseek(f, *i, SEEK_SET);
-    fscanf(f, "%s ", buf);
-    c->car_num = _strdup(buf);
-    sz = strlen(buf);
-    *i = *i + sz + 1;
-    fseek(f, *i, SEEK_SET);
-    fscanf(f, "%s ", buf);
-    fclose(f);
-    c->passport = _strdup(buf);
-    sz = strlen(buf);
-    *i = *i + sz + 1;
-}
 
 void write_car(char* o_f, Car* c)
 {

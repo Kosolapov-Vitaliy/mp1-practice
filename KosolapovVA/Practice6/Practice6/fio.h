@@ -15,7 +15,6 @@ typedef struct
     char* m_name;
 }fio;
 
-void read_fio(fio* f, const char* inf, int* i);
 void print_fio(const char* o_f, fio* p);
 void free_fio(fio* f);
 

@@ -10,7 +10,7 @@ typedef struct
     int year;
 }Birth_d;
 
-void read_br_d(char* in_f, Birth_d* d, int* i);
+void rread_br_d(char* str, Birth_d* d);
 int check_date(const Birth_d* d);
 void print_br_d(const char* o_f, Birth_d* d);
 

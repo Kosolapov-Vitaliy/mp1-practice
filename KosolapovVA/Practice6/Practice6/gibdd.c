@@ -1,23 +1,87 @@
 #include "gibdd.h"
 
-void read_info(char* in_f, I_gibdd* inf, int* i)
+void rread_info(char* str_g, I_gibdd* inf)
 {
-    char buf[248];
-    int sz = 0, j;
-    j = *i;
-    read_person(in_f, &(inf->pers), &j);
-    read_car(in_f, &(inf->TS), &j);
-    *i = j;
-    FILE* f = fopen(in_f, "r");
-    fseek(f, *i, SEEK_SET);
-    fscanf(f, "%s", buf);
-    fseek(f, *i, SEEK_SET);
-    fscanf(f, "%d ", &(inf->otd));
-    fclose(f);
-    sz = strlen(buf);
-    *i = *i + sz + 2;
-
+    int sz, i=0, j;
+    char temp[240];
+    sz = strlen(str_g);
+    do
+    {
+        while (str_g[i] == ' ')
+            i++;
+        memset(temp,'\0', 240);
+        j = 0;
+        do {
+            temp[j]=str_g[i];
+            i++; j++;
+        } while (str_g[i]!=' ');
+        inf->pers.FIO.l_name = _strdup(temp);
+        while (str_g[i] == ' ')
+            i++;
+        memset(temp, '\0', 240);
+        j = 0;
+        do {
+            temp[j] = str_g[i];
+            i++; j++;
+        } while (str_g[i] != ' ');
+        inf->pers.FIO.name = _strdup(temp);
+        while (str_g[i] == ' ')
+            i++;
+        memset(temp, '\0', 240);
+        j = 0;
+        do {
+            temp[j] = str_g[i];
+            i++; j++; 
+        } while (str_g[i] != ' ');
+        inf->pers.FIO.m_name = _strdup(temp);
+        while (str_g[i] == ' ')
+            i++;
+        memset(temp, '\0', 240);
+        j = 0;
+        do {
+            temp[j] = str_g[i];
+            i++; j++;
+        } while (str_g[i] != ' ');
+        rread_br_d(temp, &inf->pers.birth);
+        while (str_g[i] == ' ')
+            i++;
+        memset(temp, '\0', 240);
+        j = 0;
+        do {
+            temp[j] = str_g[i];
+            i++; j++;
+        } while (str_g[i] != ' ');
+        inf->pers.phone_num = _strdup(temp);
+        while (str_g[i] == ' ')
+            i++;
+        memset(temp, '\0', 240);
+        j = 0;
+        do {
+            temp[j] = str_g[i];
+            i++; j++;
+        } while (str_g[i] != ' ');
+        inf->TS.car_num = _strdup(temp);
+        while (str_g[i] == ' ')
+            i++;
+        memset(temp, '\0', 240);
+        j = 0;
+        do {
+            temp[j] = str_g[i];
+            i++; j++;
+        } while (str_g[i] != ' ');
+        inf->TS.passport = _strdup(temp);
+        while (str_g[i] == ' ')
+            i++;
+        memset(temp, '\0', 240);
+        j = 0;
+        do {
+            temp[j] = str_g[i];
+            i++; j++;
+        } while ((str_g[i] != ' ')&&(str_g[i] != '\n') && (str_g[i] != '\0'));
+        inf->otd = atoi(temp);
+    } while ((str_g[i] != '\n') && (str_g[i] != '\0'));
 }
+
 void write_info(char* o_f, I_gibdd* inf)
 {
     write_person(o_f, &(inf->pers));
