@@ -6,6 +6,7 @@ int  main(int argc, char** argv)
     GLib in_lib;
     GLib right_lib;
     char *infilename, *outfilename;
+    FILE* F;
     system("chcp 1251");
     setlocale(LC_ALL, "Rus");
     if (argc < 3)
@@ -14,7 +15,7 @@ int  main(int argc, char** argv)
         return 1;
     }
     infilename = argv[1];
-    FILE* F = fopen(infilename, "r");
+    F = fopen(infilename, "r");
     if (F == NULL)
     {
         printf("Файл пуст.");
