@@ -17,6 +17,10 @@ std::ostream& operator<<(std::ostream& out, const Person& d)
 
 std::istream& operator>>(std::istream& in, Person& d)
 {
-    in >> d.fio>> d.birth >> d.phone; 
+    std::string phone;
+    in >> d.fio>> d.birth >> phone;
+    if (size(phone) > 12 || size(phone) < 11)
+        throw "Некорректный номер телефона";
+    d.phone = phone;
     return in;
 }

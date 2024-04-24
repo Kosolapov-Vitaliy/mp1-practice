@@ -7,6 +7,8 @@ private:
     int month;
     int year;
 public:
+    Date()= default;
+    Date(int day, int month, int year);
     const Date& operator=(const Date&);
     friend std::ostream& operator<<(std::ostream&, const Date&);
     friend std::istream& operator>>(std::istream&, Date&);

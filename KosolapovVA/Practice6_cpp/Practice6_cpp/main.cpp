@@ -7,7 +7,9 @@ void main(int argc, char** argv)
     char* infilename = argv[1];
     char* outfilename = argv[2];
     std::ifstream in(infilename);
-    BDLib inlib;
+    BDLib inlib; 
+    try
+    {
     if (in.is_open())
     {
         in >>inlib;
@@ -15,8 +17,7 @@ void main(int argc, char** argv)
     in.close();
     std::cout << "Введите отделение ГИБДД:" << std::endl;
     int otdel;    
-    try
-    {
+    
         std::cin >> otdel;
         BDLib outlib;
         outlib = inlib.check_lib(otdel);
@@ -30,6 +31,6 @@ void main(int argc, char** argv)
     }
     catch (const char* error_message)
     {
-        std::cout << error_message << std::endl;
+        std::cout<<"Ошибка при выполнение программы: " << error_message << std::endl;
     }
 }

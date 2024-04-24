@@ -1,11 +1,31 @@
 #include "bithdate.h"
 
 
+Date :: Date(int day, int month, int year)
+{
+    if (year > 2024)
+        throw "Некорректный год";
+    if (month > 12 || month <= 0)
+        throw "Некорректный месяц";
+    if (day<=0||((day>31)||((day>30)&&(month == 4|| month == 6|| month == 9|| month == 11))))
+        throw "Некорректный день";
+    if (month == 2)
+    {
+        if (day > 29)
+            throw "Некорректный день";
+        else if ((day>28)&&(((year%4!=0)||(year%100==0))&&(year%400!=0)))
+            throw "Некорректный день";
+    }
+    this->day = day;
+    this->month = month;
+    this->year = year;
+}
+
 const Date& Date::operator=(const Date& d)
 {
     this->day = d.day;
     this->month = d.month;
-    this->year = d.month;
+    this->year = d.year;
     return *this;
 }
 
@@ -43,7 +63,8 @@ std::istream& operator>>(std::istream& in, Date& d )
     }
     i++;
     j = 0; 
-    d.day = stoi(temp); 
+    int t_day;
+    t_day = stoi(temp);
     temp = "      ";
     while (buf[i] != '.')
     {
@@ -53,7 +74,8 @@ std::istream& operator>>(std::istream& in, Date& d )
     }
     i++;
     j = 0;
-    d.month = stoi(temp);
+    int t_month;
+    t_month = stoi(temp);
     temp = "      ";
     while (i<size(buf))
     {
@@ -61,6 +83,8 @@ std::istream& operator>>(std::istream& in, Date& d )
         i++;
         j++;
     }
-    d.year = stoi(temp);
+    int t_year;
+    t_year = stoi(temp);
+    d = Date(t_day, t_month, t_year);
     return  in;
 }
