@@ -51,9 +51,8 @@ std::istream& operator>>(std::istream& in, Date& d )
 {
     std::string buf;
     in >> buf; 
-    int i = 0;
     std::string temp="      ";
-    int j = 0;
+    int j = 0, i = 0;
     while (buf[i] != '.')
     {
         
