@@ -84,6 +84,6 @@ std::istream& operator>>(std::istream& in, Date& d )
     }
     int t_year;
     t_year = stoi(temp);
-    d = Date(t_day, t_month, t_year);
+    d = Date{ t_day, t_month, t_year };
     return  in;
 }

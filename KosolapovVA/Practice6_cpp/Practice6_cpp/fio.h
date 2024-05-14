@@ -9,6 +9,7 @@ private:
     std::string name;
     std::string M_name;
 public:
+    FIO() = default;
     const FIO& operator=(const FIO&);
     friend std::ostream& operator<<(std::ostream&, const FIO&);
     friend std::istream& operator>>(std::istream&, FIO&);

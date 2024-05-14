@@ -10,6 +10,7 @@ private:
     Car car;
     int otd;
 public:
+    BD() = default;
     int check_otd(int ot);
     const BD& operator=(const BD&);
     friend std::ostream& operator<<(std::ostream&, const BD&);

@@ -55,12 +55,21 @@ BDLib BDLib::check_lib(int otd)
             j++;
         }
     }
-    std::cout << "End" << std::endl;
     return temp;
+}
+
+
+BDLib::BDLib(const BDLib& libr)
+{
+    count = libr.count;
+    lib = new BD[libr.count];
+    for (int i = 0; i < libr.count; i++)
+    {
+        this->lib[i] = libr.lib[i];
+    }
 }
 
 BDLib::~BDLib()
 {
-    std::cout <<  "Desrtuct" <<std::endl;
-    //delete[] this->lib;
+    delete[] this->lib;
 }

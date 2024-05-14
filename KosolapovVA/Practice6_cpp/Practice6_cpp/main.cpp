@@ -20,8 +20,7 @@ void main(int argc, char** argv)
         std::cin >> otdel;
         BDLib outlib;
         outlib = inlib.check_lib(otdel);
-        std::cout << "end" << std::endl;
-        std::cout << "Start" << outlib << std::endl;
+        std::cout << outlib << std::endl;
         std::ofstream out(outfilename);
         if (out.is_open())
         {
