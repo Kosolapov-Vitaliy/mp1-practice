@@ -18,7 +18,7 @@ std::istream& operator>>(std::istream&in, BD&bd)
     return in >> bd.pers >> bd.car >> bd.otd;
 }
 
-int BD::check_otd(int ot)
+int BD::check_otd(const int ot)
 {
     if (ot == this->otd)
         return 1;        

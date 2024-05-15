@@ -51,7 +51,7 @@ std::istream& operator>>(std::istream& in, Date& d )
 {
     std::string buf;
     in >> buf; 
-    std::string temp="      ";
+    std::string temp="        ";
     int j = 0, i = 0;
     while (buf[i] != '.')
     {
@@ -64,7 +64,7 @@ std::istream& operator>>(std::istream& in, Date& d )
     j = 0; 
     int t_day;
     t_day = stoi(temp);
-    temp = "      ";
+    temp = "        ";
     while (buf[i] != '.')
     {
         temp[j] = buf[i];
@@ -75,7 +75,7 @@ std::istream& operator>>(std::istream& in, Date& d )
     j = 0;
     int t_month;
     t_month = stoi(temp);
-    temp = "      ";
+    temp = "        ";
     while (i<size(buf))
     {
         temp[j] = buf[i];
@@ -84,6 +84,6 @@ std::istream& operator>>(std::istream& in, Date& d )
     }
     int t_year;
     t_year = stoi(temp);
-    d = Date{ t_day, t_month, t_year };
+    d = Date {t_day, t_month, t_year};
     return  in;
 }

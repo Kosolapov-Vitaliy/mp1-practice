@@ -11,7 +11,7 @@ private:
     int otd;
 public:
     BD() = default;
-    int check_otd(int ot);
+    int check_otd(const int ot);
     const BD& operator=(const BD&);
     friend std::ostream& operator<<(std::ostream&, const BD&);
     friend std::istream& operator>>(std::istream&, BD&);

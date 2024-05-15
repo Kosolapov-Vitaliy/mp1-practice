@@ -21,6 +21,10 @@ std::istream& operator>>(std::istream& in, BDLib& bd)
 
  const BDLib& BDLib::operator=(const BDLib& s)
 {
+   if (this->lib = s.lib)
+   {
+       return *this;
+   }
    this->count = s.count;
    this->lib = new BD[s.count];
     for (int i = 0; i < s.count; i++)
@@ -30,7 +34,7 @@ std::istream& operator>>(std::istream& in, BDLib& bd)
     return *this;
 }
 
-BDLib BDLib::check_lib(int otd)
+BDLib BDLib::check_lib(const int otd)
 {
     BDLib temp;
     int j = 0, cout = 0;
@@ -61,8 +65,8 @@ BDLib BDLib::check_lib(int otd)
 
 BDLib::BDLib(const BDLib& libr)
 {
-    count = libr.count;
-    lib = new BD[libr.count];
+    this->count = libr.count;
+    this->lib = new BD[libr.count];
     for (int i = 0; i < libr.count; i++)
     {
         this->lib[i] = libr.lib[i];
