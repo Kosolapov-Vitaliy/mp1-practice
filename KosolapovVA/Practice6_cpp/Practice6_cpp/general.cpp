@@ -47,7 +47,7 @@ BDLib BDLib::check_lib(const int otd)
     }
     if (cout == 0)
     {
-        throw "Данное отделение отсутсвует";
+        throw std::exception("Данное отделение отсутсвует");
     }
     temp.count = cout;
     temp.lib = new BD[temp.count];

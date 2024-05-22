@@ -15,24 +15,24 @@ void main(int argc, char** argv)
             in >> inlib;
         }
         in.close();
-        std::cout << " " << std::endl << "Входные данные" << std::endl << inlib << std::endl;
+        std::cout << std::endl << "Входные данные" << std::endl << inlib << std::endl;
         std::cout << "Введите отделение ГИБДД:" << std::endl;
         int otdel;
         std::cin >> otdel;
         BDLib outlib;
         outlib = inlib.check_lib(otdel);
-        std::cout << " " << std::endl << "Люди, зарегестрированные в отделение №" 
+        std::cout << std::endl << "Люди, зарегистрированные в отделение №" 
             <<otdel << std::endl << outlib << std::endl;
         std::ofstream out(outfilename);
         if (out.is_open())
         {
-            out << "Люди, зарегестрированные в отделение №"
+            out << "Люди, зарегистрированные в отделение №"
                 << otdel << std::endl << outlib << std::endl;
         }
-        out.close();    
+        out.close();
     }
-    catch (const char* error_message)
+    catch (const std::exception& ex) 
     {
-        std::cout<<"Ошибка при выполнение программы: " << error_message << std::endl;
+        std::cout<<"Ошибка при выполнение программы: " << ex.what() << std::endl;
     }
 }

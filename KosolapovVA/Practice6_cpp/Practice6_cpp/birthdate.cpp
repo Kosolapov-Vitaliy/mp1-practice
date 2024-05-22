@@ -4,17 +4,17 @@
 Date :: Date(int day, int month, int year)
 {
     if (year > 2024)
-        throw "Некорректный год";
+        throw std::exception("Некорректный год");
     if (month > 12 || month <= 0)
-        throw "Некорректный месяц";
-    if (day<=0||((day>31)||((day>30)&&(month == 4|| month == 6|| month == 9|| month == 11))))
-        throw "Некорректный день";
+        throw std::exception("Некорректный месяц");
+    if (day<=0||((day>31)||((day>30)&&(month == 4||month == 6||month == 9||month == 11))))
+        throw std::exception("Некорректный день");
     if (month == 2)
     {
         if (day > 29)
-            throw "Некорректный день";
+            throw std::exception("Некорректный день");
         else if ((day>28)&&(((year%4!=0)||(year%100==0))&&(year%400!=0)))
-            throw "Некорректный день";
+            throw std::exception("Некорректный день");
     }
     this->day = day;
     this->month = month;
@@ -54,7 +54,7 @@ std::istream& operator>>(std::istream& in, Date& d )
     std::string temp = "          ";
     if (size(buf) > size(temp))
     {
-        throw "Неверный формат даты, слишком большое число";
+        throw std::exception( "Неверный формат даты, слишком большое число");
     }
     int j = 0, i = 0;
     while ((buf[i] != '.') && (i < size(buf)))
@@ -68,7 +68,7 @@ std::istream& operator>>(std::istream& in, Date& d )
     int t_day;
     if (temp == "          ")
     {
-        throw "Неверный формат даты, возможно стоит лишний пробел";
+        throw std::exception("Неверный формат даты, возможно стоит лишний пробел");
     }
     t_day = stoi(temp);
     temp = "          ";
@@ -83,7 +83,7 @@ std::istream& operator>>(std::istream& in, Date& d )
     int t_month; 
     if (temp == "          ")
     {
-        throw "Неверный формат даты, возможно стоит лишний пробел";
+        throw std::exception("Неверный формат даты, возможно стоит лишний пробел");
     }
     t_month = stoi(temp);
     temp = "          ";
@@ -96,7 +96,7 @@ std::istream& operator>>(std::istream& in, Date& d )
     }
     if (temp == "          ")
     {
-        throw "Неверный формат даты, возможно стоит лишний пробел";
+        throw std::exception("Неверный формат даты, возможно стоит лишний пробел");
     }
     int t_year;
     t_year = stoi(temp);
