@@ -51,7 +51,11 @@ std::istream& operator>>(std::istream& in, Date& d )
 {
     std::string buf;
     in >> buf; 
-    std::string temp="        ";
+    std::string temp = "          ";
+    if (size(buf) > size(temp))
+    {
+        throw "Ќеверный формат даты, слишком большое число";
+    }
     int j = 0, i = 0;
     while ((buf[i] != '.') && (i < size(buf)))
     {
@@ -62,10 +66,12 @@ std::istream& operator>>(std::istream& in, Date& d )
     }
     i++;
     int t_day;
-    if (temp == "        ")
+    if (temp == "          ")
+    {
         throw "Ќеверный формат даты, возможно стоит лишний пробел";
+    }
     t_day = stoi(temp);
-    temp = "        ";
+    temp = "          ";
     j = 0;
     while ((buf[i] != '.') && (i < size(buf)))
     {
@@ -75,10 +81,12 @@ std::istream& operator>>(std::istream& in, Date& d )
     }
     i++;
     int t_month; 
-    if (temp == "        ")
+    if (temp == "          ")
+    {
         throw "Ќеверный формат даты, возможно стоит лишний пробел";
+    }
     t_month = stoi(temp);
-    temp = "        ";
+    temp = "          ";
     j = 0;
     while (i<size(buf))
     {
@@ -86,8 +94,10 @@ std::istream& operator>>(std::istream& in, Date& d )
         i++;
         j++;
     }
-    if (temp == "        ")
+    if (temp == "          ")
+    {
         throw "Ќеверный формат даты, возможно стоит лишний пробел";
+    }
     int t_year;
     t_year = stoi(temp);
     d = Date (t_day, t_month, t_year);
