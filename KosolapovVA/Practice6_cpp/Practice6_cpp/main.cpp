@@ -15,16 +15,19 @@ void main(int argc, char** argv)
             in >> inlib;
         }
         in.close();
+        std::cout << " " << std::endl << "Входные данные" << std::endl << inlib << std::endl;
         std::cout << "Введите отделение ГИБДД:" << std::endl;
         int otdel;
         std::cin >> otdel;
         BDLib outlib;
         outlib = inlib.check_lib(otdel);
-        std::cout << outlib << std::endl;
+        std::cout << " " << std::endl << "Люди, зарегестрированные в отделение №" 
+            <<otdel << std::endl << outlib << std::endl;
         std::ofstream out(outfilename);
         if (out.is_open())
         {
-            out << outlib << std::endl;
+            out << "Люди, зарегестрированные в отделение №"
+                << otdel << std::endl << outlib << std::endl;
         }
         out.close();    
     }

@@ -21,7 +21,7 @@ std::istream& operator>>(std::istream& in, BDLib& bd)
 
  const BDLib& BDLib::operator=(const BDLib& s)
 {
-   if (this->lib = s.lib)
+   if (this->lib == s.lib)
    {
        return *this;
    }
